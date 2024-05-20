@@ -137,7 +137,8 @@ impl Backend for Pprof<'_> {
 
     fn initialize(&mut self) -> Result<()> {
         // Construct a ProfilerGuardBuilder
-        let profiler = ProfilerGuardBuilder::default().frequency(self.config.sample_rate as i32);
+        let profiler = ProfilerGuardBuilder::default().frequency(self.config.sample_rate as i32)
+            .blocklist(&["libc", "libgcc", "pthread"]); // v-added
 
         // Set inner_builder field
         *self.inner_builder.lock()? = Some(profiler);
